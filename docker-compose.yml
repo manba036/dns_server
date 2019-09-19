@@ -1,0 +1,13 @@
+version: '2'
+services:
+  dnsmasq:
+    image: andyshinn/dnsmasq
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+    cap_add:
+      - NET_ADMIN
+    command: --log-facility=-
+    volumes:
+      - ./data/dnsmasq.conf:/etc/dnsmasq.conf
+      - ./data/dnsmasq.d:/etc/dnsmasq.d
