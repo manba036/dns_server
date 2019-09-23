@@ -1,9 +1,5 @@
 # dns_server
 
-## 動作確認OS
-
-* Ubuntu 18.04
-
 ## 使用方法
 
 ```bash
