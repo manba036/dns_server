@@ -22,6 +22,20 @@ sudo systemctl stop systemd-resolved
 echo ""
 
 echo "########################################"
+echo "# NetworkManager.confを変更"
+echo "########################################"
+check=`cat /etc/NetworkManager/NetworkManager.conf | grep "dns=none"`
+if [ -z "$check" ]; then
+  cat /etc/NetworkManager/NetworkManager.conf | sed -e 's/\[main\]/[main]\ndns=none/' | sudo tee /etc/NetworkManager/NetworkManager.conf
+fi
+
+echo "########################################"
+echo "# dnsmasqを再起動"
+echo "########################################"
+sudo systemctl restart NetworkManager
+echo ""
+
+echo "########################################"
 echo "# resolv.confを変更"
 echo "########################################"
 check=`ls -lah /etc/resolv.conf | grep -E '^l'`
