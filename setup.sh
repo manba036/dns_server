@@ -15,10 +15,17 @@ sudo cp dnsmasq.conf /etc/dnsmasq.d/
 echo ""
 
 echo "########################################"
-echo "# systemd-resolvedを停止"
+echo "# resolved.confを変更"
 echo "########################################"
-sudo systemctl disable systemd-resolved
-sudo systemctl stop systemd-resolved
+check=`cat /etc/systemd/resolved.conf | grep -E "^DNSStubListener=no$"`
+if [ -z "$check" ]; then
+  echo 'DNSStubListener=no' | sudo tee -a /etc/systemd/resolved.conf
+fi
+
+echo "########################################"
+echo "# systemd-resolvedを再起動"
+echo "########################################"
+sudo systemctl restart systemd-resolved
 echo ""
 
 echo "########################################"
@@ -30,7 +37,7 @@ if [ -z "$check" ]; then
 fi
 
 echo "########################################"
-echo "# dnsmasqを再起動"
+echo "# NetworkManagerを再起動"
 echo "########################################"
 sudo systemctl restart NetworkManager
 echo ""
